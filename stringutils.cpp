@@ -1,4 +1,5 @@
 #include "stringutils.h"
+#include <sstream>
 #include <stdexcept>
 
 
@@ -55,9 +56,31 @@ std::string replace(const std::string& orig, const std::string& from, const std:
 { throw std::runtime_error("Not implemented"); }
 
 std::vector<std::string> split(const std::string& orig, char delim)
-{ throw std::runtime_error("Not implemented"); }
+{
+    std::vector<std::string> parts;
+    std::stringstream ss(orig);
+    std::string part;
+
+    while (std::getline(ss, part, delim)){
+        parts.push_back(part);
+    }
+    return parts;
+}
 std::vector<std::string> split(const std::string& orig, const std::string& delim)
-{ throw std::runtime_error("Not implemented"); }
+{
+    std::vector<std::string> parts;
+    size_t start = 0;
+    size_t end = orig.find(delim);
+
+    while (end != std::string::npos)
+    {
+        parts.push_back(orig.substr(start, end-start));
+        start = end + delim.length();
+        end = orig.find(delim, start);
+    }
+    parts.push_back(orig.substr(start, end));
+    return parts;
+}
 
 std::string l_strip(const std::string& orig, char delim)
 { throw std::runtime_error("Not implemented"); }
