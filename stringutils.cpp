@@ -8,10 +8,10 @@ std::string join(const std::vector<std::string>& parts)
     if (parts.size() == 1) { return parts.at(0); }
 
     size_t size = 0;
-    for (auto s: parts) { size += s.size(); }
+    for (const auto& s: parts) { size += s.size(); }
     std::string result;
     result.reserve(size);
-    for (auto s: parts) { result.append(s); }
+    for (const auto& s: parts) { result.append(s); }
     return result;
 }
 std::string join(const std::vector<std::string>& parts, char delim)
@@ -20,7 +20,7 @@ std::string join(const std::vector<std::string>& parts, char delim)
     if (parts.size() == 1) { return parts.at(0); }
 
     size_t size = parts.size() - 1;
-    for (auto s: parts) { size += s.size(); }
+    for (const auto& s: parts) { size += s.size(); }
     std::string result;
     result.reserve(size);
 
@@ -37,7 +37,7 @@ std::string join(const std::vector<std::string>& parts, const std::string& delim
     if (parts.size() == 1) { return parts.at(0); }
 
     size_t size = delim.size() * (parts.size()-1);
-    for (auto s: parts) { size += s.size(); }
+    for (const auto& s: parts) { size += s.size(); }
     std::string result;
     result.reserve(size);
 
