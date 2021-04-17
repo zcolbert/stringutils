@@ -3,11 +3,51 @@
 
 
 std::string join(const std::vector<std::string>& parts)
-{ throw std::runtime_error("Not implemented"); }
+{
+    if (parts.empty()) { return ""; }
+    if (parts.size() == 1) { return parts.at(0); }
+
+    size_t size = 0;
+    for (auto s: parts) { size += s.size(); }
+    std::string result;
+    result.reserve(size);
+    for (auto s: parts) { result.append(s); }
+    return result;
+}
 std::string join(const std::vector<std::string>& parts, char delim)
-{ throw std::runtime_error("Not implemented"); }
+{
+    if (parts.empty()) { return ""; }
+    if (parts.size() == 1) { return parts.at(0); }
+
+    size_t size = parts.size() - 1;
+    for (auto s: parts) { size += s.size(); }
+    std::string result;
+    result.reserve(size);
+
+    for (size_t i=0; i<parts.size()-1; ++i) {
+        result.append(parts.at(i));
+        result += delim;
+    }
+    result.append(parts.at(parts.size()-1));
+    return result;
+}
 std::string join(const std::vector<std::string>& parts, const std::string& delim)
-{ throw std::runtime_error("Not implemented"); }
+{
+    if (parts.empty()) { return ""; }
+    if (parts.size() == 1) { return parts.at(0); }
+
+    size_t size = delim.size() * (parts.size()-1);
+    for (auto s: parts) { size += s.size(); }
+    std::string result;
+    result.reserve(size);
+
+    for (size_t i=0; i<parts.size()-1; ++i) {
+        result.append(parts.at(i));
+        result += delim;
+    }
+    result.append(parts.at(parts.size()-1));
+    return result;
+}
 
 std::string replace(const std::string& orig, char from, char to)
 { throw std::runtime_error("Not implemented"); }
