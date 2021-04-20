@@ -88,7 +88,16 @@ std::vector<std::string> split(const std::string& orig, const std::string& delim
 }
 
 std::string lstrip(const std::string& orig)
-{ throw std::runtime_error("Not implemented"); }
+{
+    size_t pos = orig.find_first_not_of(" \t\n");
+    if (pos == 0) {
+        return orig;
+    } else if (pos == std::string::npos) {
+        return "";
+    } else {
+        return orig.substr(pos, orig.length()-pos);
+    }
+}
 
 std::string lstrip(const std::string& orig, char delim)
 {
@@ -101,9 +110,10 @@ std::string lstrip(const std::string& orig, char delim)
         return orig.substr(pos, orig.length()-pos);
     }
 }
-
 std::string lstrip(const std::string& orig, const std::string& delim)
-{ throw std::runtime_error("Not implemented"); }
+{
+    throw std::runtime_error("Not implemented");
+}
 
 std::string rstrip(const std::string& orig)
 { throw std::runtime_error("Not implemented"); }
