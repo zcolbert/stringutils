@@ -2,7 +2,7 @@
 #include "../../stringutils.h"
 
 
-SCENARIO("Characters are stripped from the beginning of a string.", "[strip]")
+SCENARIO("Characters are stripped from the beginning of a string.", "[strip][lstrip]")
 {
     GIVEN("A string beginning with a delimiting character") {
 
@@ -45,36 +45,50 @@ SCENARIO("Characters are stripped from the beginning of a string.", "[strip]")
         }
     }
 }
-SCENARIO("A substring is stripped from the beginning of a string.", "[strip]")
+SCENARIO("A prefix substring is stripped from the beginning of a string.", "[strip][lstrip]")
 {
     GIVEN("A string beginning with a substring prefix") {
         std::string prefix = "Prefix: ";
 
-        WHEN("The string begins with the substring") {
-            std::string original = "Prefix: Some string";
-
+        WHEN("The string begins with the prefix") {
+            std::string original = "Some string";
+            std::string combined = prefix + original;
             THEN("The substring after the delimiting character is returned") {
+                REQUIRE( lstrip(combined, prefix) == original );
             }
         }
         WHEN("The string begins with repetition of the prefix") {
+            std::string original = "Some string";
+            std::string combined = prefix + prefix + prefix + original;
             THEN("The substring after the last occurrence of the prefix is returned") {
+                REQUIRE( lstrip(combined, prefix) == original );
             }
         }
         WHEN("The string consists only of the prefix") {
             THEN("An empty string is returned") {
+                REQUIRE( lstrip(prefix + prefix, prefix).empty() );
             }
         }
         WHEN("The string contains, but does not begin with, the delimiter") {
+            std::string original = "Some " + prefix + "string";
             THEN("The original string is returned") {
+                REQUIRE( lstrip(original, prefix) == original );
+            }
+        }
+        WHEN("The prefix substring is empty") {
+            std::string original = "Some string";
+            THEN("The original string is returned") {
+                REQUIRE( lstrip(original, "") == original );
             }
         }
         WHEN("The string is empty") {
             THEN("An empty string is returned") {
+                REQUIRE( lstrip("", prefix).empty() );
             }
         }
     }
 }
-SCENARIO("Whitespace is removed from the beginning of a string", "[strip]")
+SCENARIO("Whitespace is removed from the beginning of a string", "[strip][lstrip]")
 {
     GIVEN("A string beginning with whitespace characters") {
 
