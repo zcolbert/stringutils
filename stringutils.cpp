@@ -98,7 +98,6 @@ std::string lstrip(const std::string& orig)
         return orig.substr(pos, orig.length()-pos);
     }
 }
-
 std::string lstrip(const std::string& orig, char delim)
 {
     size_t pos = orig.find_first_not_of(delim);
@@ -119,7 +118,10 @@ std::string lstrip(const std::string& orig, const std::string& delim)
 }
 
 std::string rstrip(const std::string& orig)
-{ throw std::runtime_error("Not implemented"); }
+{
+    size_t pos = orig.find_last_not_of(" \t\n");
+    return pos == std::string::npos ? "" : orig.substr(0, pos+1);
+}
 
 std::string rstrip(const std::string& orig, char delim)
 { throw std::runtime_error("Not implemented"); }

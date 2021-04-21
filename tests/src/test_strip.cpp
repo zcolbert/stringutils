@@ -2,6 +2,77 @@
 #include "../../stringutils.h"
 
 
+SCENARIO("Whitespace is removed from the beginning of a string", "[strip][lstrip]")
+{
+    GIVEN("A string beginning with whitespace characters") {
+
+        WHEN("The string contains, but does not begin with whitespace characters") {
+            std::string original = "A string\twith\nwhitespace";
+            THEN("The original string is returned") {
+                REQUIRE( lstrip(original) == original );
+            }
+        }
+        WHEN("The string consists only of whitespace characters") {
+            THEN("An empty string is returned") {
+                REQUIRE( lstrip("\t \n \t").empty() );
+            }
+        }
+        WHEN("The string is empty") {
+            THEN("An empty string is returned") {
+                REQUIRE( lstrip("").empty() );
+            }
+        }
+        WHEN("The string begins with a single space") {
+            std::string original = " A string";
+            THEN("The substring after the space is returned") {
+                std::string expected = "A string";
+                REQUIRE( lstrip(original) == expected );
+            }
+        }
+        WHEN("The string begins with consecutive spaces") {
+            std::string original = "      A string";
+            THEN("The substring after the last leading space is returned") {
+                std::string expected = "A string";
+                REQUIRE( lstrip(original) == expected );
+            }
+        }
+        WHEN("The string begins with a single tab") {
+            std::string original = "\tA string";
+            THEN("The substring after the tab is returned") {
+                std::string expected = "A string";
+                REQUIRE( lstrip(original) == expected );
+            }
+        }
+        WHEN("The string begins with consecutive tabs") {
+            std::string original = "\t\t\tA string";
+            THEN("The substring after the last leading tab is returned") {
+                std::string expected = "A string";
+                REQUIRE( lstrip(original) == expected );
+            }
+        }
+        WHEN("The string begins with a single newline") {
+            std::string original = "\nA string";
+            THEN("The substring following the newline is returned") {
+                std::string expected = "A string";
+                REQUIRE( lstrip(original) == expected );
+            }
+        }
+        WHEN("The string begins with consecutive newlines") {
+            std::string original = "\n\n\nA string";
+            THEN("The substring following the last leading newline is returned") {
+                std::string expected = "A string";
+                REQUIRE( lstrip(original) == expected );
+            }
+        }
+        WHEN("The string begins with a combination of whitespace characters") {
+            std::string original = " \n\t \t \nA string";
+            THEN("The substring beginning with the first non-whitespace character is returned") {
+                std::string expected = "A string";
+                REQUIRE( lstrip(original) == expected );
+            }
+        }
+    }
+}
 SCENARIO("Characters are stripped from the beginning of a string.", "[strip][lstrip]")
 {
     GIVEN("A string beginning with a delimiting character") {
@@ -88,73 +159,67 @@ SCENARIO("A prefix substring is stripped from the beginning of a string.", "[str
         }
     }
 }
-SCENARIO("Whitespace is removed from the beginning of a string", "[strip][lstrip]")
+SCENARIO("Whitespace is removed from the end of a string", "[strip][rstrip]")
 {
-    GIVEN("A string beginning with whitespace characters") {
+    GIVEN("A string") {
 
-        WHEN("The string contains, but does not begin with whitespace characters") {
-            std::string original = "A string\twith\nwhitespace";
+        WHEN("The string contains, but does not end with whitespace characters") {
+            std::string original = " A string\tcontaining\nwhitespace";
             THEN("The original string is returned") {
-                REQUIRE( lstrip(original) == original );
+                REQUIRE( rstrip(original) == original );
             }
         }
         WHEN("The string consists only of whitespace characters") {
             THEN("An empty string is returned") {
-                REQUIRE( lstrip("\t \n \t").empty() );
+                REQUIRE( rstrip(" \t\n \t\n").empty() );
             }
         }
         WHEN("The string is empty") {
             THEN("An empty string is returned") {
-                REQUIRE( lstrip("").empty() );
+                REQUIRE(rstrip("").empty() );
             }
         }
-        WHEN("The string begins with a single space") {
-            std::string original = " A string";
-            THEN("The substring after the space is returned") {
-                std::string expected = "A string";
-                REQUIRE( lstrip(original) == expected );
+        WHEN("The string ends with a single space") {
+            std::string original = "Some text";
+            THEN("The substring before the first trailing space is returned") {
+                REQUIRE( rstrip(original + ' ') == original );
             }
         }
-        WHEN("The string begins with consecutive spaces") {
-            std::string original = "      A string";
-            THEN("The substring after the last leading space is returned") {
-                std::string expected = "A string";
-                REQUIRE( lstrip(original) == expected );
+        WHEN("The string ends with consecutive spaces") {
+            std::string original = "Some text";
+            THEN("The substring before the first trailing space is returned") {
+                REQUIRE( rstrip(original + ' ' + ' ') == original );
             }
         }
-        WHEN("The string begins with a single tab") {
-            std::string original = "\tA string";
-            THEN("The substring after the tab is returned") {
-                std::string expected = "A string";
-                REQUIRE( lstrip(original) == expected );
+        WHEN("The string ends with a single tab") {
+            std::string original = "Some text";
+            THEN("The substring before the first trailing tab is returned") {
+                REQUIRE( rstrip(original + '\t') == original );
             }
         }
-        WHEN("The string begins with consecutive tabs") {
-            std::string original = "\t\t\tA string";
-            THEN("The substring after the last leading tab is returned") {
-                std::string expected = "A string";
-                REQUIRE( lstrip(original) == expected );
+        WHEN("The string ends with consecutive tabs") {
+            std::string original = "Some text";
+            THEN("The substring before the first trailing tab is returned") {
+                REQUIRE( rstrip(original + '\t' + '\t') == original );
             }
         }
-        WHEN("The string begins with a single newline") {
-            std::string original = "\nA string";
-            THEN("The substring following the newline is returned") {
-                std::string expected = "A string";
-                REQUIRE( lstrip(original) == expected );
+        WHEN("The string ends with a single newline") {
+            std::string original = "Some text";
+            THEN("The substring before the newline is returned") {
+                REQUIRE( rstrip(original + '\n') == original );
             }
         }
-        WHEN("The string begins with consecutive newlines") {
-            std::string original = "\n\n\nA string";
-            THEN("The substring following the last leading newline is returned") {
-                std::string expected = "A string";
-                REQUIRE( lstrip(original) == expected );
+        WHEN("The string ends with consecutive newlines") {
+            std::string original = "Some text";
+            THEN("The substring before the first trailing newline is returned") {
+                REQUIRE( rstrip(original + '\n' + '\n') == original );
             }
         }
-        WHEN("The string begins with a combination of whitespace characters") {
-            std::string original = " \n\t \t \nA string";
-            THEN("The substring beginning with the first non-whitespace character is returned") {
-                std::string expected = "A string";
-                REQUIRE( lstrip(original) == expected );
+        WHEN("The string ends with a combination of whitespace characters") {
+            std::string original = "Some text \t \n\n \t\n";
+            std::string expected = "Some text";
+            THEN("The substring ending with the first trailing whitespace character is returned") {
+                REQUIRE(rstrip(original) == expected );
             }
         }
     }
