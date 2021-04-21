@@ -112,7 +112,6 @@ std::string lstrip(const std::string& orig, char delim)
 std::string lstrip(const std::string& orig, const std::string& delim)
 {
     if (delim.empty()) { return orig; }
-    if (orig.empty()) { return ""; }
     size_t pos = orig.find_first_not_of(delim);
     return pos == std::string::npos ? "" : orig.substr(pos, orig.length()-pos);
 }
