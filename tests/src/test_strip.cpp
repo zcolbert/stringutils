@@ -22,6 +22,12 @@ SCENARIO("Whitespace is removed from the beginning of a string", "[strip][lstrip
                 REQUIRE( lstrip("").empty() );
             }
         }
+        WHEN("The string does not contain whitespace") {
+            std::string original = "Sometextwithoutspaces";
+            THEN("The original string is returned") {
+                REQUIRE( lstrip(original) == original );
+            }
+        }
         WHEN("The string begins with a single space") {
             std::string original = " A string";
             THEN("The substring after the space is returned") {
@@ -108,6 +114,12 @@ SCENARIO("Characters are stripped from the beginning of a string.", "[strip][lst
                 REQUIRE( lstrip(original, '$') == original );
             }
         }
+        WHEN("The string does not contain the delimiter") {
+            std::string original = "Some text";
+            THEN("The original string is returned") {
+                REQUIRE( lstrip(original, '$') == original );
+            }
+        }
         WHEN("The string is empty") {
 
             THEN("An empty string is returned") {
@@ -176,7 +188,13 @@ SCENARIO("Whitespace is removed from the end of a string", "[strip][rstrip]")
         }
         WHEN("The string is empty") {
             THEN("An empty string is returned") {
-                REQUIRE(rstrip("").empty() );
+                REQUIRE( rstrip("").empty() );
+            }
+        }
+        WHEN("The string does not contain whitespace") {
+            std::string original = "Sometextwithoutspaces";
+            THEN("The original string is returned") {
+                REQUIRE( rstrip(original) == original );
             }
         }
         WHEN("The string ends with a single space") {
@@ -220,6 +238,90 @@ SCENARIO("Whitespace is removed from the end of a string", "[strip][rstrip]")
             std::string expected = "Some text";
             THEN("The substring ending with the first trailing whitespace character is returned") {
                 REQUIRE(rstrip(original) == expected );
+            }
+        }
+    }
+}
+SCENARIO("Characters are stripped from the end of a string.", "[strip][rstrip]")
+{
+    GIVEN("A string") {
+
+        WHEN("The string ends with the delimiting character") {
+            std::string original = "Some text";
+            THEN("The substring before the first occurrence of the trailing character is returned") {
+                REQUIRE( rstrip(original+'$', '$') == original );
+            }
+        }
+        WHEN("The string ends with repetition of the delimiting character") {
+            std::string original = "Some text";
+            std::string suffix = "$$$";
+            THEN("The substring before the first occurrence of the trailing character is returned") {
+                REQUIRE( rstrip(original+suffix, '$') == original );
+            }
+        }
+        WHEN("The string consists only of the delimiting character") {
+            THEN("An empty string is returned") {
+                REQUIRE( rstrip("$$$", '$').empty() );
+            }
+        }
+        WHEN("The string does not contain the delimiting character") {
+            std::string original = "Some text";
+            THEN("The original string is returned") {
+                REQUIRE( rstrip(original, '$') == original );
+            }
+        }
+        WHEN("The string contains, but does not end with, the delimiter") {
+            std::string original = "$Some $$ text";
+            THEN("The original string is returned") {
+                REQUIRE( rstrip(original, '$') == original );
+            }
+        }
+        WHEN("The string is empty") {
+            THEN("An empty string is returned") {
+                REQUIRE( rstrip("", '$').empty() );
+            }
+        }
+    }
+}
+SCENARIO("A suffix substring is stripped from the end of a string.", "[strip][rstrip]")
+{
+    GIVEN("A string") {
+        std::string suffix = " - Suffix";
+
+        WHEN("The string ends with the suffix") {
+            std::string original = "Some text";
+            std::string appended = original + suffix;
+            THEN("The substring before the first occurrence of the suffix is returned") {
+                REQUIRE( rstrip(appended, suffix) == original );
+            }
+        }
+        WHEN("The string ends with repetition of the suffix") {
+            std::string original = "Some text";
+            std::string appended = original + suffix + suffix + suffix;
+            THEN("The substring before the first occurrence of the suffix is returned") {
+                REQUIRE( rstrip(appended, suffix) == original );
+            }
+        }
+        WHEN("The string consists only of the suffix") {
+            THEN("An empty string is returned") {
+                REQUIRE( rstrip(suffix+suffix, suffix).empty() );
+            }
+        }
+        WHEN("The string contains, but does not end with, the suffix") {
+            std::string original = "Some " + suffix + " text";
+            THEN("The original string is returned") {
+                REQUIRE( rstrip(original, suffix) == original );
+            }
+        }
+        WHEN("The suffix substring is empty") {
+            std::string original = "Some text";
+            THEN("The original string is returned") {
+                REQUIRE( rstrip(original, "") == original );
+            }
+        }
+        WHEN("The string is empty") {
+            THEN("An empty string is returned") {
+                REQUIRE( rstrip("", suffix).empty() );
             }
         }
     }

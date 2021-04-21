@@ -122,12 +122,17 @@ std::string rstrip(const std::string& orig)
     size_t pos = orig.find_last_not_of(" \t\n");
     return pos == std::string::npos ? "" : orig.substr(0, pos+1);
 }
-
 std::string rstrip(const std::string& orig, char delim)
-{ throw std::runtime_error("Not implemented"); }
-
+{
+    size_t pos = orig.find_last_not_of(delim);
+    return pos == std::string::npos ? "" : orig.substr(0, pos+1);
+}
 std::string rstrip(const std::string& orig, const std::string& delim)
-{ throw std::runtime_error("Not implemented"); }
+{
+    if (delim.empty()) { return orig; }
+    size_t pos = orig.find_last_not_of(delim);
+    return pos == std::string::npos ? "" : orig.substr(0, pos+1);
+}
 
 std::string strip(const std::string& orig) {
     return rstrip(lstrip(orig));
