@@ -158,6 +158,12 @@ SCENARIO("A prefix substring is stripped from the beginning of a string.", "[str
                 REQUIRE( lstrip(original, prefix) == original );
             }
         }
+        WHEN("The string does not contain the substring") {
+            std::string original = "Some text";
+            THEN("The original string is returned") {
+                REQUIRE( lstrip(original, "notintheoriginal") == original );
+            }
+        }
         WHEN("The prefix substring is empty") {
             std::string original = "Some string";
             THEN("The original string is returned") {
@@ -311,6 +317,12 @@ SCENARIO("A suffix substring is stripped from the end of a string.", "[strip][rs
             std::string original = "Some " + suffix + " text";
             THEN("The original string is returned") {
                 REQUIRE( rstrip(original, suffix) == original );
+            }
+        }
+        WHEN("The string does not contain the substring") {
+            std::string original = "Some text";
+            THEN("The original string is returned") {
+                REQUIRE( rstrip(original, "notintheoriginal") == original );
             }
         }
         WHEN("The suffix substring is empty") {
@@ -478,7 +490,7 @@ SCENARIO("A substring is stripped from the beginning and end of a string.", "[st
                 REQUIRE( strip(substring, substring).empty() );
             }
         }
-        WHEN("The string does not contain the delimiting character") {
+        WHEN("The string does not contain the substring") {
             std::string original = "Some text";
             THEN("The original string is returned") {
                 REQUIRE( strip(original, "notintheoriginal") == original );
