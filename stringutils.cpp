@@ -112,8 +112,11 @@ std::string lstrip(const std::string& orig, char delim)
 std::string lstrip(const std::string& orig, const std::string& delim)
 {
     if (delim.empty()) { return orig; }
-    size_t pos = orig.find_first_not_of(delim);
-    return pos == std::string::npos ? "" : orig.substr(pos, orig.length()-pos);
+    size_t start = 0;
+    while(orig.substr(start, delim.length()) == delim && start < orig.length()) {
+        start += delim.length();
+    }
+    return start == 0 ? orig : orig.substr(start, orig.length());
 }
 
 std::string rstrip(const std::string& orig)
@@ -128,9 +131,19 @@ std::string rstrip(const std::string& orig, char delim)
 }
 std::string rstrip(const std::string& orig, const std::string& delim)
 {
-    if (delim.empty()) { return orig; }
-    size_t pos = orig.find_last_not_of(delim);
-    return pos == std::string::npos ? "" : orig.substr(0, pos+1);
+    if (delim.empty() || (orig.length() < delim.length())) { return orig; }
+    size_t pos = orig.length();
+    while (pos >= 0) {
+        if (pos >= delim.length()) {
+            pos -= delim.length();
+            if (orig.substr(pos, delim.length()) != delim) {
+                return orig.substr(0, pos+delim.length());
+            }
+        }
+        else {
+            return orig.substr(0, pos);
+        }
+    }
 }
 
 std::string strip(const std::string& orig) {
