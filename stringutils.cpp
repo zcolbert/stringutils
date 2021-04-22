@@ -133,17 +133,14 @@ std::string rstrip(const std::string& orig, const std::string& delim)
 {
     if (delim.empty() || (orig.length() < delim.length())) { return orig; }
     size_t pos = orig.length();
-    while (pos >= 0) {
-        if (pos >= delim.length()) {
-            pos -= delim.length();
-            if (orig.substr(pos, delim.length()) != delim) {
-                return orig.substr(0, pos+delim.length());
-            }
-        }
-        else {
-            return orig.substr(0, pos);
+    while (pos >= 0 && pos >= delim.length()) {
+        pos -= delim.length();
+        if (orig.substr(pos, delim.length()) != delim) {
+            pos += delim.length();
+            break;
         }
     }
+    return orig.substr(0, pos);
 }
 
 std::string strip(const std::string& orig) {
