@@ -2,17 +2,53 @@
 #include "../../stringutils.h"
 
 
-SCENARIO("A string is split at each occurrence of a delimiter", "[split]")
+SCENARIO("A string is split at each group of whitespace characters", "[split]")
 {
-    GIVEN("A string containing delimiting characters") {
-        std::string original = "Hello, this is a string. \tGoodbye.";
+    GIVEN("A string") {
+        WHEN ("The string contains one or more delimiters") {
+            std::string orig = "A string\twith\nwhitespace";
 
-        WHEN ("No delimiter is specified") {
-            std::vector<std::string> expected = {
-                "Hello,", "this", "is", "a", "string.", "Goodbye."
-            };
-            THEN("The string is split at whitespace") {
+            THEN("The string is split at each delimiter") {
+                std::vector<std::string> expected = {
+                        "A", "string", "with", "whitespace"
+                };
+                REQUIRE( split(orig) == expected );
+            }
+        }
+        WHEN("The string has leading or trailing whitespace") {
+            std::string orig = "\t A string\twith\nwhitespace\n";
+
+            THEN("The whitespace is trimmed before splitting") {
+                std::vector<std::string> expected = {
+                        "A", "string", "with", "whitespace"
+                };
+                REQUIRE( split(orig) == expected );
+            }
+        }
+        WHEN ("The string contains repeated delimiters") {
+            std::string orig = "A  string\t\twith\n\nwhitespace";
+
+            THEN("Repeated delimiters are consumed and treated as one") {
+                std::vector<std::string> expected = {
+                        "A", "string", "with", "whitespace"
+                };
+                REQUIRE( split(orig) == expected );
+            }
+        }
+        WHEN ("The string does not contain delimiters") {
+            std::string orig = "Astringwithoutwhitespace";
+
+            THEN("A vector containing the original string is returned") {
+                std::vector<std::string> expected = { orig };
+                REQUIRE( split(orig) == expected );
+            }
+        }
+        WHEN ("The string is empty") {
+            THEN("An empty vector is returned") {
+                REQUIRE( split("").empty() );
             }
         }
     }
 }
+SCENARIO("A string is split at each occurrence of a delimiting character", "[split]") {}
+SCENARIO("A string is split at each occurrence of a delimiting substring", "[split]") {}

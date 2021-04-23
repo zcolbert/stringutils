@@ -58,7 +58,27 @@ std::string replace(const std::string& orig, const std::string& from, const std:
 { throw std::runtime_error("Not implemented"); }
 
 std::vector<std::string> split(const std::string& orig)
-{ throw std::runtime_error("Not implemented"); }
+{
+    std::vector<std::string> parts;
+    std::string buf;
+    buf.reserve(orig.length());
+    size_t i = 0;
+    while (i < orig.length() && isspace(orig.at(i))) { ++i; }
+    while (i < orig.length()) {
+        if (isspace(orig.at(i))) {
+            if (!buf.empty()) {
+                parts.push_back(buf);
+                buf.clear();
+            }
+        }
+        else {
+            buf += orig.at(i);
+        }
+        ++i;
+    }
+    if (!buf.empty()) { parts.push_back(buf); }
+    return parts;
+}
 
 std::vector<std::string> split(const std::string& orig, char delim)
 {
