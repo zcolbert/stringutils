@@ -63,7 +63,6 @@ std::vector<std::string> split(const std::string& orig)
     std::string buf;
     buf.reserve(orig.length());
     size_t i = 0;
-    while (i < orig.length() && isspace(orig.at(i))) { ++i; }
     while (i < orig.length()) {
         if (isspace(orig.at(i))) {
             if (!buf.empty()) {
