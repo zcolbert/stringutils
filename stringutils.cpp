@@ -77,16 +77,24 @@ std::vector<std::string> split(const std::string& orig)
     if (!buf.empty()) { parts.push_back(buf); }
     return parts;
 }
-
 std::vector<std::string> split(const std::string& orig, char delim)
 {
     std::vector<std::string> parts;
-    std::stringstream ss(orig);
-    std::string part;
+    std::string buf;
+    buf.reserve(orig.length());
 
-    while (std::getline(ss, part, delim)){
-        parts.push_back(part);
+    for (auto c: orig) {
+        if (c == delim) {
+            if (!buf.empty()) {
+                parts.push_back(buf);
+                buf.clear();
+            }
+        }
+        else {
+            buf += c;
+        }
     }
+    if (!buf.empty()) { parts.push_back(buf); }
     return parts;
 }
 std::vector<std::string> split(const std::string& orig, const std::string& delim)
