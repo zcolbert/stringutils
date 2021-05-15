@@ -1,5 +1,4 @@
 #include "stringutils.h"
-#include <stdexcept>
 
 
 std::string join(const std::vector<std::string>& parts)
