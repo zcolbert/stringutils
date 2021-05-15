@@ -56,9 +56,24 @@ std::string replace(std::string orig, char from, char to)
     }
     return orig;
 }
-
 std::string replace(const std::string& orig, const std::string& from, const std::string& to)
-{ throw std::runtime_error("Not implemented"); }
+{
+    if (orig.empty()) { return ""; }
+
+    std::string result;
+    size_t pos = 0;
+    while (pos < orig.length()) {
+        if (orig.substr(pos, from.length()) == from) {
+            result.append(to);
+            pos += from.length();
+        }
+        else {
+            result += orig[pos];
+            ++pos;
+        }
+    }
+    return result;
+}
 
 std::vector<std::string> split(const std::string& orig)
 {
