@@ -1,7 +1,5 @@
 #include "stringutils.h"
-#include <sstream>
 #include <stdexcept>
-#include <iostream>
 
 
 std::string join(const std::vector<std::string>& parts)
@@ -51,8 +49,13 @@ std::string join(const std::vector<std::string>& parts, const std::string& delim
     return result;
 }
 
-std::string replace(const std::string& orig, char from, char to)
-{ throw std::runtime_error("Not implemented"); }
+std::string replace(std::string orig, char from, char to)
+{
+    for (size_t i=0; i<orig.length(); ++i) {
+        if (orig[i] == from) { orig[i] = to; }
+    }
+    return orig;
+}
 
 std::string replace(const std::string& orig, const std::string& from, const std::string& to)
 { throw std::runtime_error("Not implemented"); }
