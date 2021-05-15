@@ -27,3 +27,27 @@ SCENARIO("All instances of a character within a string are replaced with a new c
         }
     }
 }
+SCENARIO("All instances of a substring within a string are replaced by a new substring") {
+    GIVEN("A string, an existing substring, and a replacement substring") {
+
+        WHEN("The string is empty") {
+            std::string orig;
+            THEN("An empty string is returned") {
+                REQUIRE(replace(orig, "sub1", "sub2").empty());
+            }
+        }
+        WHEN("The string does not contain the target substring") {
+            std::string orig = "Some text";
+            THEN("The original string is returned") {
+                REQUIRE(replace(orig, "sub1", "sub2") == orig);
+            }
+        }
+        WHEN("The string contains the substring") {
+            std::string orig = "sub1Some sub1sub1 textsub1";
+            THEN("The target substring is replaced by the new substring") {
+                std::string expected = "newSome newnew textnew";
+                REQUIRE(replace(orig, "sub1", "new") == expected);
+            }
+        }
+    }
+}
