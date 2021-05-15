@@ -100,19 +100,23 @@ std::vector<std::string> split(const std::string& orig, char delim)
 std::vector<std::string> split(const std::string& orig, const std::string& delim)
 {
     std::vector<std::string> parts;
-    size_t start = 0;
-    size_t end = orig.find(delim);
+    if (orig.empty()) { return parts; }
 
+    size_t pos = 0;
+    size_t end = orig.length() - delim.length() + 1;
     std::string buf;
-    buf.reserve(orig.length());
-    while (end != std::string::npos)
-    {
-        buf = orig.substr(start, end-start);
-        if (!buf.empty()) {
-            parts.push_back(buf);
+    while (pos <= end) {
+        if (orig.substr(pos, delim.length()) == delim) {
+            if (!buf.empty()) {
+                parts.push_back(buf);
+                buf.clear();
+            }
+            pos += delim.length();
         }
-        start = end + delim.length();
-        end = orig.find(delim, start);
+        else {
+            buf.push_back(orig[pos]);
+            ++pos;
+        }
     }
     if (!buf.empty()) { parts.push_back(buf); }
     return parts;
