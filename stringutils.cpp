@@ -91,7 +91,7 @@ std::vector<std::string> split(const std::string& orig, char delim)
             }
         }
         else {
-            buf += c;
+            buf.push_back(c);
         }
     }
     if (!buf.empty()) { parts.push_back(buf); }
@@ -103,13 +103,18 @@ std::vector<std::string> split(const std::string& orig, const std::string& delim
     size_t start = 0;
     size_t end = orig.find(delim);
 
+    std::string buf;
+    buf.reserve(orig.length());
     while (end != std::string::npos)
     {
-        parts.push_back(orig.substr(start, end-start));
+        buf = orig.substr(start, end-start);
+        if (!buf.empty()) {
+            parts.push_back(buf);
+        }
         start = end + delim.length();
         end = orig.find(delim, start);
     }
-    parts.push_back(orig.substr(start, end));
+    if (!buf.empty()) { parts.push_back(buf); }
     return parts;
 }
 
