@@ -59,8 +59,23 @@ std::string remove(const std::string& orig, char target) {
     }
     return buf;
 }
-std::string remove(const std::string& orig, const std::string& target);
+std::string remove(const std::string& orig, const std::string& target) {
+    if (target.empty()) { return orig; }
 
+    std::string buf;
+    buf.reserve(orig.length());
+    size_t pos = 0;
+    while (pos < orig.length()) {
+        if (orig.substr(pos, target.length()) == target) {
+            pos += target.length();
+        }
+        else {
+            buf += orig[pos];
+            ++pos;
+        }
+    }
+    return buf;
+}
 
 std::string replace(std::string orig, char from, char to)
 {
