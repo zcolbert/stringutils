@@ -49,6 +49,19 @@ std::string join(const std::vector<std::string>& parts, const std::string& delim
     return result;
 }
 
+std::string remove(const std::string& orig, char target) {
+    std::string buf;
+    buf.reserve(orig.length());
+    for (const auto& c: orig) {
+        if (c != target) {
+            buf += c;
+        }
+    }
+    return buf;
+}
+std::string remove(const std::string& orig, const std::string& target);
+
+
 std::string replace(std::string orig, char from, char to)
 {
     for (size_t i=0; i<orig.length(); ++i) {
