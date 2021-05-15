@@ -27,7 +27,7 @@ SCENARIO("All instances of a character within a string are replaced with a new c
         }
     }
 }
-SCENARIO("All instances of a substring within a string are replaced by a new substring") {
+SCENARIO("All instances of a substring within a string are replaced by a new substring", "[replace]") {
     GIVEN("A string, an existing substring, and a replacement substring") {
 
         WHEN("The string is empty") {
