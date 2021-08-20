@@ -29,3 +29,7 @@ std::string rstrip(const std::string& orig, const std::string& delim);
 std::string strip(const std::string& orig);
 std::string strip(const std::string& orig, char delim);
 std::string strip(const std::string& orig, const std::string& delim);
+
+std::string tolower(const std::string& orig);
+std::string toupper(const std::string& orig);
+

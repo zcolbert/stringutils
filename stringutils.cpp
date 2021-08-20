@@ -13,6 +13,7 @@ std::string join(const std::vector<std::string>& parts)
     for (const auto& s: parts) { result.append(s); }
     return result;
 }
+
 std::string join(const std::vector<std::string>& parts, char delim)
 {
     if (parts.empty()) { return ""; }
@@ -30,6 +31,7 @@ std::string join(const std::vector<std::string>& parts, char delim)
     result.append(parts[parts.size()-1]);
     return result;
 }
+
 std::string join(const std::vector<std::string>& parts, const std::string& delim)
 {
     if (parts.empty()) { return ""; }
@@ -58,6 +60,7 @@ std::string remove(const std::string& orig, char target) {
     }
     return buf;
 }
+
 std::string remove(const std::string& orig, const std::string& target) {
     if (target.empty()) { return orig; }
 
@@ -83,6 +86,7 @@ std::string replace(std::string orig, char from, char to)
     }
     return orig;
 }
+
 std::string replace(const std::string& orig, const std::string& from, const std::string& to)
 {
     if (orig.empty()) { return ""; }
@@ -122,6 +126,7 @@ std::vector<std::string> split(const std::string& orig)
     if (!buf.empty()) { parts.push_back(buf); }
     return parts;
 }
+
 std::vector<std::string> split(const std::string& orig, char delim)
 {
     std::vector<std::string> parts;
@@ -142,6 +147,7 @@ std::vector<std::string> split(const std::string& orig, char delim)
     if (!buf.empty()) { parts.push_back(buf); }
     return parts;
 }
+
 std::vector<std::string> split(const std::string& orig, const std::string& delim)
 {
     std::vector<std::string> parts;
@@ -178,6 +184,7 @@ std::string lstrip(const std::string& orig)
         return orig.substr(pos, orig.length()-pos);
     }
 }
+
 std::string lstrip(const std::string& orig, char delim)
 {
     size_t pos = orig.find_first_not_of(delim);
@@ -189,6 +196,7 @@ std::string lstrip(const std::string& orig, char delim)
         return orig.substr(pos, orig.length()-pos);
     }
 }
+
 std::string lstrip(const std::string& orig, const std::string& delim)
 {
     if (delim.empty()) { return orig; }
@@ -204,11 +212,13 @@ std::string rstrip(const std::string& orig)
     size_t pos = orig.find_last_not_of(" \t\n");
     return pos == std::string::npos ? "" : orig.substr(0, pos+1);
 }
+
 std::string rstrip(const std::string& orig, char delim)
 {
     size_t pos = orig.find_last_not_of(delim);
     return pos == std::string::npos ? "" : orig.substr(0, pos+1);
 }
+
 std::string rstrip(const std::string& orig, const std::string& delim)
 {
     if (delim.empty() || (orig.length() < delim.length())) { return orig; }
@@ -226,9 +236,27 @@ std::string rstrip(const std::string& orig, const std::string& delim)
 std::string strip(const std::string& orig) {
     return rstrip(lstrip(orig));
 }
+
 std::string strip(const std::string& orig, char delim) {
     return rstrip(lstrip(orig, delim), delim);
 }
+
 std::string strip(const std::string& orig, const std::string& delim) {
     return rstrip(lstrip(orig, delim), delim);
+}
+
+std::string tolower(const std::string& orig) {
+    std::string lower = orig;
+    for (size_t i = 0; i < lower.length(); ++i) {
+        lower[i] = tolower(lower[i]);
+    }
+    return lower;
+}
+
+std::string toupper(const std::string& orig) {
+    std::string upper = orig;
+    for (size_t i = 0; i < upper.length(); ++i) {
+        upper[i] = toupper(upper[i]);
+    }
+    return upper;
 }
